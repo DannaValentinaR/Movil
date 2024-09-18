@@ -5,9 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { images} from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
+import { router } from 'expo-router';
 
 
 import { signIn } from '../../lib/appwrite'; 
+import { useGlobalContext } from "../../context/GlobalProvider";
+
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -26,6 +29,7 @@ const SignIn = () => {
     setIsSubmitting(true);
     try {
       await signIn(form.email, form.password);
+      router.replace('/home')
       
     } catch (error) {
       Alert.alert('Error', error.message);
@@ -44,7 +48,7 @@ const SignIn = () => {
           title="Email"
           value={form.email}
           handleChangeText={(e) => setForm({ ...form, email: e })}
-          otherStyles={styles.formField}
+          otherStyles="mt-7"
           keyboardType="email-address"
         />
 
@@ -52,13 +56,13 @@ const SignIn = () => {
           title="Password"
           value={form.password}
           handleChangeText={(e) => setForm({ ...form, password: e })}
-          otherStyles={styles.formField}
+          otherStyles="mt-7"
         />
 
         <CustomButton
           title="Ingresa"
           handlePress={submit}
-          containerStyles={styles.buttonContainer}
+          containerStyles="mt-7"
           isLoading={isSubmitting}
         />
 
